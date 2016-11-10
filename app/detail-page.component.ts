@@ -1,22 +1,30 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
 @Component({
-	selector: 'child-page',
-	template: `
-        <h4>{{name}}<h4>
-        <button (click)="vote(true)" [disabled]="voted">Agree</button>
-        <button (click)="vote(false)" [disabled] ="voted">Disagree</button>
-    `
+  selector: 'child-page',
+  template: '<p>{{message}}</p>'
 })
-
-export class DetailPageComponent {
-	@Input() name: string;
-    @Output() onVoted = new EventEmitter<boolean>();
-
-    voted = false;
-
-    vote(agreed: boolean){
-    	this.onVoted.emit(agreed);
-    	this.voted = true;
-    }
+export class DetailPageComponent implements OnInit, OnDestroy {
+  intervalId = 0;
+  message = '';
+  seconds = 11;
+  clearTimer() { clearInterval(this.intervalId); }
+  ngOnInit()    { this.start(); }
+  ngOnDestroy() { this.clearTimer(); }
+  start() { this.countDown(); }
+  stop()  {
+    this.clearTimer();
+    this.message = `Holding at T-${this.seconds} seconds`;
+  }
+  private countDown() {
+    this.clearTimer();
+    this.intervalId = window.setInterval(() => {
+      this.seconds -= 1;
+      if (this.seconds === 0) {
+        this.message = 'Blast off!';
+      } else {
+        if (this.seconds < 0) { this.seconds = 10; } // reset
+        this.message = `${this.seconds} seconds and counting`;
+      }
+    }, 1000);
+  }
 }

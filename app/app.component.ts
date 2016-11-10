@@ -1,20 +1,13 @@
-import { Component }      from '@angular/core';
+import { Component }                from '@angular/core';
+import { DetailPageComponent }  from './detail-page.component';
 @Component({
   selector: 'my-app',
   template: `
-    <h2>Should mankind colonize the Universe?</h2>
-    <h3>Agree: {{agreed}}, Disagree: {{disagreed}}</h3>
-    <child-page *ngFor="let voter of voters"
-      [name]="voter"
-      (onVoted)="onVoted($event)">
-    </child-page>
+  <h3>Countdown to Liftoff (via local variable)</h3>
+  <button (click)="timer.start()">Start</button>
+  <button (click)="timer.stop()">Stop</button>
+  <div class="seconds">{{timer.seconds}}</div>
+  <child-page #timer></child-page>
   `
 })
-export class AppComponent {
-  agreed = 0;
-  disagreed = 0;
-  voters = ['Mr. IQ', 'Ms. Universe', 'Bombasto'];
-  onVoted(agreed: boolean) {
-    agreed ? this.agreed++ : this.disagreed++;
-  }
-}
+export class AppComponent { }
