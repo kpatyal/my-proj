@@ -1,15 +1,22 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+
 @Component({
-  selector: 'name-child',
-  template: `
-    <h3>"{{name}}"</h3>
-  `
+	selector: 'child-page',
+	template: `
+        <h4>{{name}}<h4>
+        <button (click)="vote(true)" [disabled]="voted">Agree</button>
+        <button (click)="vote(false)" [disabled] ="voted">Disagree</button>
+    `
 })
+
 export class DetailPageComponent {
-  _name: string = '<no name set>';
-  @Input()
-  set name(name: string) {
-    this._name = (name && name.trim()) || '<no name set>';
-  }
-  get name() { return this._name; }
+	@Input() name: string;
+    @Output() onVoted = new EventEmitter<boolean>();
+
+    voted = false;
+
+    vote(agreed: boolean){
+    	this.onVoted.emit(agreed);
+    	this.voted = true;
+    }
 }

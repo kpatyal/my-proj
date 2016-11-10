@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
+import { Component }      from '@angular/core';
 @Component({
   selector: 'my-app',
   template: `
-    <h2>Master controls {{names.length}} names</h2>
-    <detail-page *ngFor="let name of names"
-      [name]="name">
-    </detail-page>
+    <h2>Should mankind colonize the Universe?</h2>
+    <h3>Agree: {{agreed}}, Disagree: {{disagreed}}</h3>
+    <child-page *ngFor="let voter of voters"
+      [name]="voter"
+      (onVoted)="onVoted($event)">
+    </child-page>
   `
 })
 export class AppComponent {
-  // Displays 'Mr. IQ', '<no name set>', 'Bombasto'
-  names = ['Mr. IQ', '   ', '  Bombasto  '];
+  agreed = 0;
+  disagreed = 0;
+  voters = ['Mr. IQ', 'Ms. Universe', 'Bombasto'];
+  onVoted(agreed: boolean) {
+    agreed ? this.agreed++ : this.disagreed++;
+  }
 }
