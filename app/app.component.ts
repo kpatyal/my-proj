@@ -2,22 +2,13 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'my-app',
   template: `
-    <h2> On chnage check value</h2>
-    <button (click) = "newMinor()">New minor version</button>
-    <button (click) = "newMajor()">New major version</button>
-    <child-page [major] = "major" [minor] = "minor"></child-page>
+    <h2>Master controls {{names.length}} names</h2>
+    <detail-page *ngFor="let name of names"
+      [name]="name">
+    </detail-page>
   `
 })
 export class AppComponent {
-  major: number = 1;
-  minor: number = 23;
-
-  newMinor() {
-    this.minor++;
-  }
-
-  newMajor() {
-    this.major++;
-    this.minor = 0;
-  }
+  // Displays 'Mr. IQ', '<no name set>', 'Bombasto'
+  names = ['Mr. IQ', '   ', '  Bombasto  '];
 }
